@@ -1,41 +1,28 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const express = require('express');
+const CONFIG = require('./config/config');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const connectDb = require('./db/dbConfig')
+const errorMiddleware = require('./middlewares/errorHandler')
+const bookValidateMiddleware = require ('./middlewares/bookValidator')
 
-var app = express();
+const app = express();
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
 
-app.use(logger('dev'));
+//body parser middleare
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.urlencoded({extended: true}));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use(bookValidateMiddleware)
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
+//connecte Database
+connectDb();
+
+app.get('/', (req, res)=>{
+    res.send("Hello buddy !")
 });
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+app.use(errorMiddleware)
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+app.listen(CONFIG.PORT, ()=>{
+    console.log(`server started on: http://localhost:${CONFIG.PORT}`)
 });
-
-module.exports = app;
