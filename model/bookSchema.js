@@ -23,7 +23,7 @@ const BookSchema = new Schema({
 
     "isbn": {
         type: String,
-        unique: true,
+        unique: [true, 'book isbn aready exist'],
         required: true
     },
 

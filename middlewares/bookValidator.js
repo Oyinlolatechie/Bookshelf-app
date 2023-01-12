@@ -1,4 +1,6 @@
 const joi = require('joi');
+const BookModel = require('../model/bookSchema')
+
 
 
 const bookValidator = joi.object({
@@ -38,16 +40,25 @@ const bookValidator = joi.object({
 })
 
 
+const isbnUniquenessCheck = async (isbn) => {
+    const existingBook = await BookModel.findOne({ isbn });
+    if (existingBook) {
+        throw new Error('The ISBN is already in use');
+    }
+}
+
+
 
 const bookValidateMiddleware = async (req, res, next) => {
     const bookPlayload = req.body
 
     try {
+        await isbnUniquenessCheck(bookPlayload.isbn);
         await bookValidator.validateAsync(bookPlayload);
         next()
     } catch (error) {
         console.log(error)
-        res.status(400).send(error.details[0].message)
+        res.status(400).send(error.message)
     }
 }
 

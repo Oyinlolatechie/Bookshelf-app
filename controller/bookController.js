@@ -109,6 +109,30 @@ exports.updateBook = async (req, res) => {
 
 }
 
-exports.deleteBook = (req, res) => {
-    res.send('Hello bruh!!')
+exports.deleteBook = async (req, res) => {
+    const bookId = req.params.id
+
+    try {
+      const deletedBook =  await BookModel.findByIdAndDelete(bookId)
+      if(deletedBook){
+        res.status(204)
+        .json({
+            status: "success",
+            data: deletedBook
+        })
+      }else {
+        res.status(404)
+        .json({
+            status: "failed",
+            message: "Book to deleted not found"
+        })
+      }
+    } catch (error) {
+        console.log(error)
+        res.status(400)
+        .json({
+            status: "failed",
+            message: "An error occurred while trying to delete book"
+        })
+    }
 }
