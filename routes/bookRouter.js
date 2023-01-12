@@ -2,7 +2,7 @@ const express = require('express');
 const bookRouter = express.Router();
 
 const bookValidateMiddleware = require ('../middlewares/bookValidator')
-const { createBook, getAllBooks, getBookById } = require('../controller/bookController')
+const { createBook, getAllBooks, getBookById, updateBook, deleteBook } = require('../controller/bookController')
 
 bookRouter.get('/', getAllBooks)
 
@@ -10,8 +10,8 @@ bookRouter.get('/:id', getBookById)
 
 bookRouter.post('/', bookValidateMiddleware, createBook )
 
-bookRouter.put('/', )
+bookRouter.patch('/:id', updateBook)
 
-bookRouter.delete('/', )
+bookRouter.delete('/:id', deleteBook)
 
 module.exports = bookRouter

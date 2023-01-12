@@ -76,10 +76,39 @@ exports.getBookById = async (req, res) => {
     
 }
 
-exports.updateBookController = (req, res) => {
-    res.send('Hello bruh!!')
+exports.updateBook = async (req, res) => {
+    const bookId = req.params.id
+    const bookInfo = req.body
+
+    try {
+        const bookUpdated = await BookModel.findByIdAndUpdate(bookId, bookInfo,
+             {new: true,
+            runValidators : true})
+        if(bookUpdated){
+            res.status(201)
+            .json({
+                status: 'success',
+                data : bookUpdated
+            })
+        } else{
+            res.status(400)
+            .json({
+                status: 'failed',
+                message: "Book to update not found"
+            })
+        }
+    } catch (error) {
+        console.log(error)
+        res.status(400)
+        .json({
+            status: 'failed',
+            message: 'An errror occurred while trying to update book'
+        })
+        
+    }
+
 }
 
-exports.deleteBookController = (req, res) => {
+exports.deleteBook = (req, res) => {
     res.send('Hello bruh!!')
 }
