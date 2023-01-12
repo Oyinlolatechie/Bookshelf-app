@@ -5,7 +5,7 @@ const bookValidator = joi.object({
     title: joi.string()
         .required()
         .min(5)
-        .min(150)
+        .max(150)
         .trim(),
 
     shortDescription: joi.string()
@@ -22,7 +22,7 @@ const bookValidator = joi.object({
         .max(2023),
 
     isbn: joi.string()
-        .unique()
+        // .unique()
         .required()
         .trim(),
 

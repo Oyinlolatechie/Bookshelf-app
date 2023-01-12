@@ -1,9 +1,11 @@
 const express = require('express');
 const CONFIG = require('./config/config');
 
+const bookRouter = require('./routes/bookRouter')
+
 const connectDb = require('./db/dbConfig')
 const errorMiddleware = require('./middlewares/errorHandler')
-const bookValidateMiddleware = require ('./middlewares/bookValidator')
+
 
 const app = express();
 
@@ -12,16 +14,20 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
-app.use(bookValidateMiddleware)
 
 //connecte Database
 connectDb();
 
+
+
+
+//set routes
+app.use('/api/v1', bookRouter)
+
+
 app.get('/', (req, res)=>{
     res.send("Hello buddy !")
 });
-
-app.use(errorMiddleware)
 
 app.listen(CONFIG.PORT, ()=>{
     console.log(`server started on: http://localhost:${CONFIG.PORT}`)

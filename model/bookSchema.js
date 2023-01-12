@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const Schema = mongoose.Schema()
+const Schema = mongoose.Schema
 
 const BookSchema = new Schema({
     "title": {
@@ -8,12 +8,12 @@ const BookSchema = new Schema({
     },
 
     "shortDescription" : {
-        type: string
+        type: String
 
     },
 
     "longDescription" : {
-        type: string
+        type: String
     },
 
     "year": {
