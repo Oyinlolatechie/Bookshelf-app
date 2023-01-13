@@ -1,79 +1,79 @@
 const BookModel = require('../model/bookSchema')
 
 exports.createBook = async (req, res) => {
-   const bookInfo = req.body
+    const bookInfo = req.body
 
     try {
         const book = await BookModel.create(bookInfo)
 
-        if(book){
+        if (book) {
             res.status(200)
-            .json({
-                status: "success",
-                data: book
-            })
+                .json({
+                    status: "success",
+                    data: book
+                })
         }
     } catch (error) {
         console.log(error)
         res.status(400)
-        .json({
-            status: "failed",
-            message: error
-        })
-        
+            .json({
+                status: "failed",
+                message: error
+            })
+
     }
 }
 
 exports.getAllBooks = async (req, res) => {
-    
+
     try {
         const books = await BookModel.find()
 
-        if(books){
+        if (books) {
             res.status(200)
-            .json({
-                status: "success",
-                data: books
-            })
+                .json({
+                    status: "success",
+                    data: books
+                })
         }
     } catch (error) {
         console.log(error)
         res.status(400)
-        .json({
-            status: "failed",
-            message: "An error occured while trying to fecth data"
-        })
-        
+            .json({
+                status: "failed",
+                message: "An error occured while trying to fecth data"
+            })
+
     }
 }
 
 exports.getBookById = async (req, res) => {
-   const bookId = req.params.id
+    const bookId = req.params.id
 
-   try {
-    const book = await BookModel.findById(bookId)
+    try {
+        const book = await BookModel.findById(bookId)
 
-    if(book){
-        res.status(200)
-        .json({
-            status : "success",
-            data: book
-        }) 
-    } else {
-        res.status(404)
-        .json({
-            message: "Book not found"
-        })
-    }
-   } catch (error) {
+        if (book) {
+            res.status(200)
+                .json({
+                    status: "success",
+                    data: book
+                })
+        } else {
+            res.status(404)
+                .json({
+                    message: "Book not found"
+                })
+        }
+    } catch (error) {
         console.log(error)
         res.status(400)
-        .json({
-            status: "failed",
-            message: "An error occurred while fecthing data"
-        })
-   }
-    
+            .json({
+                status: "failed",
+                message: "An error occurred while fecthing data"
+            })
+    }
+
 }
 
 exports.updateBook = async (req, res) => {
@@ -82,29 +82,31 @@ exports.updateBook = async (req, res) => {
 
     try {
         const bookUpdated = await BookModel.findByIdAndUpdate(bookId, bookInfo,
-             {new: true,
-            runValidators : true})
-        if(bookUpdated){
+            {
+                new: true,
+                runValidators: true
+            })
+        if (bookUpdated) {
             res.status(201)
-            .json({
-                status: 'success',
-                data : bookUpdated
-            })
-        } else{
+                .json({
+                    status: 'success',
+                    data: bookUpdated
+                })
+        } else {
             res.status(400)
-            .json({
-                status: 'failed',
-                message: "Book to update not found"
-            })
+                .json({
+                    status: 'failed',
+                    message: "Book to update not found"
+                })
         }
     } catch (error) {
         console.log(error)
         res.status(400)
-        .json({
-            status: 'failed',
-            message: 'An errror occurred while trying to update book'
-        })
-        
+            .json({
+                status: 'failed',
+                message: 'An errror occurred while trying to update book'
+            })
+
     }
 
 }
@@ -113,26 +115,26 @@ exports.deleteBook = async (req, res) => {
     const bookId = req.params.id
 
     try {
-      const deletedBook =  await BookModel.findByIdAndDelete(bookId)
-      if(deletedBook){
-        res.status(204)
-        .json({
-            status: "success",
-            data: deletedBook
-        })
-      }else {
-        res.status(404)
-        .json({
-            status: "failed",
-            message: "Book to deleted not found"
-        })
-      }
+        const deletedBook = await BookModel.findByIdAndDelete(bookId)
+        if (deletedBook) {
+            res.status(204)
+                .json({
+                    status: "success",
+                    data: deletedBook
+                })
+        } else {
+            res.status(404)
+                .json({
+                    status: "failed",
+                    message: "Book to deleted not found"
+                })
+        }
     } catch (error) {
         console.log(error)
         res.status(400)
-        .json({
-            status: "failed",
-            message: "An error occurred while trying to delete book"
-        })
+            .json({
+                status: "failed",
+                message: "An error occurred while trying to delete book"
+            })
     }
 }
