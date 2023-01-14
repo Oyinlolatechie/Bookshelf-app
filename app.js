@@ -2,6 +2,8 @@ const express = require('express');
 const CONFIG = require('./config/config');
 
 const bookRouter = require('./routes/bookRouter')
+const authorRouter = require('./routes/authorRouter')
+
 
 const connectDb = require('./db/dbConfig')
 const errorMiddleware = require('./middlewares/errorHandler')
@@ -22,11 +24,14 @@ connectDb();
 
 //set routes
 app.use('/api/v1', bookRouter)
+app.use('/api/v1', authorRouter)
 
 
 app.get('/', (req, res)=>{
     res.send("Hello buddy !")
 });
+
+app.use(errorMiddleware)
 
 app.listen(CONFIG.PORT, ()=>{
     console.log(`server started on: http://localhost:${CONFIG.PORT}`)

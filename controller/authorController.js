@@ -1,16 +1,16 @@
-const BookModel = require('../model/bookSchema')
+const authorModel = require('../model/authorSchema')
 
-exports.createBook = async (req, res) => {
-    const bookInfo = req.body
+exports.createAuthor = async (req, res) => {
+    const authorInfo = req.body
 
     try {
-        const book = await BookModel.create(bookInfo)
+        const author = await authorModel.create(authorInfo)
 
-        if (book) {
+        if (author) {
             res.status(200)
                 .json({
                     status: "success",
-                    data: book
+                    data: author
                 })
         }
     } catch (error) {
@@ -24,16 +24,16 @@ exports.createBook = async (req, res) => {
     }
 }
 
-exports.getAllBooks = async (req, res) => {
+exports.getAllAuthors = async (req, res) => {
 
     try {
-        const books = await BookModel.find()
+        const authors = await authorModel.find()
 
-        if (books) {
+        if (authors) {
             res.status(200)
                 .json({
                     status: "success",
-                    data: books
+                    data: authors
                 })
         }
     } catch (error) {
@@ -47,22 +47,22 @@ exports.getAllBooks = async (req, res) => {
     }
 }
 
-exports.getBookById = async (req, res) => {
-    const bookId = req.params.id
+exports.getAuthorById = async (req, res) => {
+    const authorId = req.params.id
 
     try {
-        const book = await BookModel.findById(bookId)
+        const author = await authorModel.findById(authorId)
 
-        if (book) {
+        if (author) {
             res.status(200)
                 .json({
                     status: "success",
-                    data: book
+                    data: author
                 })
         } else {
             res.status(404)
                 .json({
-                    message: "Book not found"
+                    message: "author not found"
                 })
         }
     } catch (error) {
@@ -76,27 +76,27 @@ exports.getBookById = async (req, res) => {
 
 }
 
-exports.updateBook = async (req, res) => {
-    const bookId = req.params.id
-    const bookInfo = req.body
+exports.updateAuthor = async (req, res) => {
+    const authorId = req.params.id
+    const authorInfo = req.body
 
     try {
-        const bookUpdated = await BookModel.findByIdAndUpdate(bookId, bookInfo,
+        const authorUpdated = await authorModel.findByIdAndUpdate(authorId, authorInfo,
             {
                 new: true,
                 runValidators: true
             })
-        if (bookUpdated) {
+        if (authorUpdated) {
             res.status(201)
                 .json({
                     status: 'success',
-                    data: bookUpdated
+                    data: authorUpdated
                 })
         } else {
             res.status(400)
                 .json({
                     status: 'failed',
-                    message: "Book to update not found"
+                    message: "author to update not found"
                 })
         }
     } catch (error) {
@@ -104,29 +104,29 @@ exports.updateBook = async (req, res) => {
         res.status(400)
             .json({
                 status: 'failed',
-                message: 'An errror occurred while trying to update book'
+                message: 'An errror occurred while trying to update author'
             })
 
     }
 
 }
 
-exports.deleteBook = async (req, res) => {
-    const bookId = req.params.id
+exports.deleteAuthor = async (req, res) => {
+    const authorId = req.params.id
 
     try {
-        const deletedBook = await BookModel.findByIdAndDelete(bookId)
-        if (deletedBook) {
+        const deletedAuthor = await authorModel.findByIdAndDelete(authorId)
+        if (deletedAuthor) {
             res.status(204)
                 .json({
                     status: "success",
-                    data: deletedBook
+                    data: deletdAuthor
                 })
         } else {
             res.status(404)
                 .json({
                     status: "failed",
-                    message: "Book to be deleted not found"
+                    message: "author to be deleted not found"
                 })
         }
     } catch (error) {
@@ -134,7 +134,7 @@ exports.deleteBook = async (req, res) => {
         res.status(400)
             .json({
                 status: "failed",
-                message: "An error occurred while trying to delete book"
+                message: "An error occurred while trying to delete author"
             })
     }
 }
