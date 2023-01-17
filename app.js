@@ -1,15 +1,18 @@
 const express = require('express');
 const CONFIG = require('./config/config');
 
+
 const bookRouter = require('./routes/bookRouter')
 const authorRouter = require('./routes/authorRouter')
+const{ auth }= require('express-openid-connect')
+const authConfig = require('./auth/auth2.0')
 
 
 const connectDb = require('./db/dbConfig')
 const errorMiddleware = require('./middlewares/errorHandler')
 
 
-const app = express();
+const app = express()
 
 
 //body parser middleare
@@ -20,7 +23,8 @@ app.use(express.urlencoded({extended: true}));
 //connecte Database
 connectDb();
 
-
+//auth 
+app.use(auth(authConfig));
 
 //set routes
 app.use('/api/v1', bookRouter)
